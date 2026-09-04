@@ -16,21 +16,39 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            cursor: pointer; /* لجعل الزائر يشعر أنه يجب أن يضغط */
         }
         h1 {
             font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            text-shadow: 0 0 10px #ff0000;
             animation: blink 1.5s infinite;
         }
         .hacker-name {
             color: #ffffff;
             font-size: 2rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-            letter-spacing: 5px;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            color: #888;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+        /* إخفاء شاشة الفيديو حتى يحين وقت المفاجأة */
+        #jumpscare-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 9999;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         @keyframes blink {
             0%, 100% { opacity: 1; }
@@ -38,10 +56,40 @@
         }
     </style>
 </head>
-<body>
+<!-- عند الضغط على أي مكان في الشاشة يتم تشغيل المقلب -->
+<body onclick="startJumpscare()">
 
     <h1>تم الاختراق</h1>
     <div class="hacker-name">BY ☠ CHIKO ☠</div>
+    <div class="instruction">[ اضغط على الشاشة للاستمرار ]</div>
+
+    <!-- حاوية الفيديو المرعب -->
+    <div id="jumpscare-container">
+        <!-- استبدل رابط src برابط فيديو الـ jumpscare المباشر الخاص بك -->
+        <video id="scary-video" src="https://w3schools.com" preload="auto"></video>
+    </div>
+
+    <script>
+        function startJumpscare() {
+            var container = document.getElementById("jumpscare-container");
+            var video = document.getElementById("scary-video");
+            
+            // إظهار الفيديو بكامل الشاشة
+            container.style.display = "block";
+            
+            // تشغيل الفيديو بالصوت الكامل
+            video.muted = false;
+            video.play();
+            
+            // طلب تفعيل وضع ملء الشاشة لجعل المقلب أقوى
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+        }
+    </script>
 
 </body>
 </html>
+
